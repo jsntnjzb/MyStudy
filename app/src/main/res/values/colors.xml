@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="grid_item_select_color">#E7BAC2BA</color>
+    <color name="grid_line">#E75B605B</color>
+    <color name="list_item_bg_pressed">#626764</color>
+    <color name="list_item_bg_focused">#fff</color>
+</resources>
