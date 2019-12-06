@@ -13,15 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.HandlerThreadActivity"></activity>
-        <activity android:name=".Activity.NewActivity">
+        <activity android:name=".Activity.VolleyActivity"></activity>
+        <activity android:name=".Activity.HandlerThreadActivity" />
+        <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.MainActivity" />
         <activity android:name=".Activity.SocketActivity" />
     </application>
 

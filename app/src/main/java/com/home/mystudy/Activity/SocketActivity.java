@@ -2,11 +2,13 @@ package com.home.mystudy.Activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -22,6 +24,7 @@ public class SocketActivity extends Activity {
     private GridView gridView;
     private ArrayList items = new ArrayList(){};
     private GridViewAdapter gridViewAdapter;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,23 @@ public class SocketActivity extends Activity {
             gridViewAdapter = new GridViewAdapter(items,SocketActivity.this);
         }
         gridView.setAdapter(gridViewAdapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                switch (position){
+                    //HandlerThread
+                    case 0:
+                        intent = new Intent(SocketActivity.this,HandlerThreadActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 1:
+                        intent = new Intent(SocketActivity.this,VolleyActivity.class);
+                        startActivity(intent);
+                        break;
+                }
+            }
+        });
     }
 
     private class GridViewAdapter extends BaseAdapter {
