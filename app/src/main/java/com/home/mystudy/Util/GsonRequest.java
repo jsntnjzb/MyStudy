@@ -14,9 +14,10 @@ import java.util.Map;
 
 public class GsonRequest<T> extends Request<T> {
     private final Gson gson = new Gson();
-    private final Class<T> clazz;
-    private final Map<String, String> headers;
-    private final Response.Listener<T> listener;
+    private  Class<T> clazz;
+    private  Map<String, String> headers;
+    private  Response.Listener<T> listener;
+
 
 
     /**
@@ -34,6 +35,20 @@ public class GsonRequest<T> extends Request<T> {
         this.listener = listener;
     }
 
+
+    public GsonRequest(int method, String url, Class<T> clazz, Response.Listener<T> listener,
+                       Response.ErrorListener errorListener) {
+        super(method, url, errorListener);
+        clazz = clazz;
+        listener = listener;
+    }
+
+    public GsonRequest(String url, Class<T> clazz, Response.Listener<T> listener,
+                       Response.ErrorListener errorListener) {
+        this(Method.GET, url, clazz, listener, errorListener);
+    }
+
+
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
         return headers != null ? headers : super.getHeaders();
@@ -43,8 +58,7 @@ public class GsonRequest<T> extends Request<T> {
     protected Response<T> parseNetworkResponse(NetworkResponse response) {
         try {
             String json = new String(
-                    response.data,
-                    HttpHeaderParser.parseCharset(response.headers));
+                    response.data,"UTF-8");
             return Response.success(
                     gson.fromJson(json, clazz),
                     HttpHeaderParser.parseCacheHeaders(response));
@@ -53,6 +67,21 @@ public class GsonRequest<T> extends Request<T> {
         } catch (JsonSyntaxException e) {
             return Response.error(new ParseError(e));
         }
+
+//        {"weatherinfo":
+//            {"city":"北京",
+//                    "cityid":"101010100",
+//                    "temp":"27.9",
+//                    "WD":"南风",
+//                    "WS":"小于3级",
+//                    "SD":"28%",
+//                    "AP":"1002hPa",
+//                    "njd":"暂无实况",
+//                    "WSE":"<3",
+//                    "time":"17:55",
+//                    "sm":"2.1",
+//                    "isRadar":"1",
+//                    "Radar":"JC_RADAR_AZ9010_JB"}}
     }
 
     @Override

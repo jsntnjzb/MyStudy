@@ -52,12 +52,5 @@ public class LineGridView extends GridView {
                 canvas.drawLine(cellView.getLeft(), cellView.getBottom() , cellView.getRight(), cellView.getBottom() , localPaint);
             }
         }
-
-//        if(childCount % column != 0){
-//            for(int j = 0 ;j < (column-childCount % column) ; j++){
-//                View lastView = getChildAt(childCount - 1);
-//                canvas.drawLine(lastView.getRight() + lastView.getWidth() * j, lastView.getTop(), lastView.getRight() + lastView.getWidth()* j, lastView.getBottom(), localPaint);
-//            }
-//        }
     }
 }

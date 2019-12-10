@@ -21,7 +21,10 @@ import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.home.mystudy.Model.Weather;
+import com.home.mystudy.Model.WeatherInfo;
 import com.home.mystudy.R;
+import com.home.mystudy.Util.GsonRequest;
 
 import org.json.JSONObject;
 
@@ -78,6 +81,9 @@ public class VolleyActivity extends Activity {
         imageView = (ImageView)findViewById(R.id.image);
         imageView.setVisibility(View.VISIBLE);
         downLoad_images();
+
+        //自定义GsonRequest
+        //get_weather();
     }
 
     /**
@@ -139,7 +145,7 @@ public class VolleyActivity extends Activity {
                            ImageRequest imageRequest1 = createImageRequest(location);
                            mRequestQueue.add(imageRequest1);
                         }
-                        Toast.makeText(VolleyActivity.this,"服务器异常",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(VolleyActivity.this,"服务器异常",Toast.LENGTH_SHORT).show();
                         return;
                     }
                     if(error instanceof NetworkError) {
@@ -150,9 +156,7 @@ public class VolleyActivity extends Activity {
                         Toast.makeText(VolleyActivity.this,"数据格式错误",Toast.LENGTH_SHORT).show();
                         return;
                     }
-
                     Toast.makeText(VolleyActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
-
                 }
 
                 String error_msg = error.getMessage();
@@ -164,11 +168,32 @@ public class VolleyActivity extends Activity {
     }
 
     private void downLoad_images(){
-//        for (int i = 0;i<url.length;i++){
-//            mHandler.sendEmptyMessageDelayed(i,1000*i);
-//        }
-        ImageRequest imageRequest = createImageRequest(url[0]);
-        mRequestQueue.add(imageRequest);
+        for (int i = 0;i<url.length;i++){
+            mHandler.sendEmptyMessageDelayed(i,1000*i);
+        }
+//        ImageRequest imageRequest = createImageRequest(url[0]);
+//        mRequestQueue.add(imageRequest);
+    }
+
+    //Weather
+    private void get_weather(){
+        GsonRequest<Weather> gsonRequest = new GsonRequest(
+                "http://www.weather.com.cn/data/sk/101010100.html", Weather.class,
+                new Response.Listener<Weather>() {
+                    @Override
+                    public void onResponse(Weather weather) {
+                        WeatherInfo weatherInfo = weather.getWeatherinfo();
+                        Log.d("TAG", "city is " + weatherInfo.getCity());
+                        Log.d("TAG", "temp is " + weatherInfo.getTemp());
+                        Log.d("TAG", "time is " + weatherInfo.getTime());
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("TAG", error.getMessage(), error);
+            }
+        });
+        mRequestQueue.add(gsonRequest);
     }
 
 
